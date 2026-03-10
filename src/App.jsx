@@ -141,9 +141,7 @@ const stages = [
   ]}
 ];
 
-const ImgPlaceholder = ({ info }) => {
-  const [modalSrc, setModalSrc] = useState(null);
-
+const ImgPlaceholder = ({ info, onImageClick }) => {
   if (!info) return (
     <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", border: "1px dashed #C9C2B4", fontSize: "12px", color: "#8B8B8B", fontFamily: "sans-serif", textAlign: "center" }}>
       System-triggered nudge — no chat screenshot available
@@ -154,54 +152,28 @@ const ImgPlaceholder = ({ info }) => {
   const basePath = `${import.meta.env.BASE_URL}img/`;
 
   return (
-    <>
-      <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", fontFamily: "sans-serif" }}>
-        <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "10px" }}>Screenshot Evidence</div>
-        <div style={{ display: "flex", gap: "10px" }}>
-          {files.map((file, i) => (
-            <img
-              key={i}
-              src={`${basePath}${file}`}
-              alt={info.desc}
-              onClick={() => setModalSrc(`${basePath}${file}`)}
-              style={{
-                maxWidth: files.length > 1 ? "25%" : "50%",
-                height: "auto",
-                objectFit: "contain",
-                borderRadius: "6px",
-                border: "1px solid #E5E0D8",
-                cursor: "pointer",
-              }}
-            />
-          ))}
-        </div>
-        <div style={{ fontSize: "12px", color: "#5A5A5A", lineHeight: 1.5, marginTop: "10px" }}>{info.desc}</div>
-      </div>
-
-      {modalSrc && (
-        <div
-          onClick={() => setModalSrc(null)}
-          style={{
-            position: "fixed", inset: 0, zIndex: 9999,
-            background: "rgba(0, 0, 0, 0.6)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer",
-          }}
-        >
+    <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", fontFamily: "sans-serif" }}>
+      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "10px" }}>Screenshot Evidence</div>
+      <div style={{ display: "flex", gap: "10px" }}>
+        {files.map((file, i) => (
           <img
-            src={modalSrc}
+            key={i}
+            src={`${basePath}${file}`}
             alt={info.desc}
+            onClick={(e) => { e.stopPropagation(); onImageClick(`${basePath}${file}`); }}
             style={{
-              maxWidth: "90vw",
-              maxHeight: "90vh",
+              maxWidth: files.length > 1 ? "25%" : "50%",
+              height: "auto",
               objectFit: "contain",
-              borderRadius: "10px",
-              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+              borderRadius: "6px",
+              border: "1px solid #E5E0D8",
+              cursor: "pointer",
             }}
           />
-        </div>
-      )}
-    </>
+        ))}
+      </div>
+      <div style={{ fontSize: "12px", color: "#5A5A5A", lineHeight: 1.5, marginTop: "10px" }}>{info.desc}</div>
+    </div>
   );
 };
 
@@ -209,6 +181,7 @@ export default function WSNudgeAnalysis() {
   const [activeStage, setActiveStage] = useState(0);
   const [expandedNudge, setExpandedNudge] = useState(null);
   const [showSystemic, setShowSystemic] = useState(true);
+  const [modalSrc, setModalSrc] = useState(null);
   const stage = stages[activeStage];
 
   return (
@@ -287,7 +260,7 @@ export default function WSNudgeAnalysis() {
                 </div>
                 {isExp && (
                   <div style={{ padding: "0 24px 24px", display: "flex", flexDirection: "column", gap: "14px" }}>
-                    <ImgPlaceholder info={nudge.img} />
+                    <ImgPlaceholder info={nudge.img} onImageClick={setModalSrc} />
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                       {[
                         { label: "Current Experience", content: nudge.currentState, color: "#64748B", icon: "📍" },
@@ -312,6 +285,30 @@ export default function WSNudgeAnalysis() {
           18 nudge patterns · 6 journey stages · 3 foundational capabilities · Click cards to expand
         </div>
       </div>
+
+      {modalSrc && (
+        <div
+          onClick={() => setModalSrc(null)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 9999,
+            background: "rgba(0, 0, 0, 0.6)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          <img
+            src={modalSrc}
+            alt="Screenshot detail"
+            style={{
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              objectFit: "contain",
+              borderRadius: "10px",
+              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
