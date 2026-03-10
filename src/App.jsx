@@ -147,11 +147,29 @@ const ImgPlaceholder = ({ info }) => {
       System-triggered nudge — no chat screenshot available
     </div>
   );
+
+  const files = info.file.split(" + ").map(f => f.trim());
+  const basePath = `${import.meta.env.BASE_URL}img/`;
+
   return (
-    <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", border: "1px dashed #C9C2B4", fontFamily: "sans-serif" }}>
-      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "8px" }}>Screenshot</div>
-      <div style={{ fontSize: "12px", color: "#5A5A5A", lineHeight: 1.5 }}>{info.desc}</div>
-      <div style={{ fontSize: "10px", color: "#ABABAB", marginTop: "6px", fontFamily: "monospace" }}>{info.file}</div>
+    <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", fontFamily: "sans-serif" }}>
+      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "10px" }}>Screenshot Evidence</div>
+      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        {files.map((file, i) => (
+          <img
+            key={i}
+            src={`${basePath}${file}`}
+            alt={info.desc}
+            style={{
+              flex: files.length > 1 ? "1 1 45%" : "1 1 100%",
+              maxWidth: "100%",
+              borderRadius: "6px",
+              border: "1px solid #E5E0D8",
+            }}
+          />
+        ))}
+      </div>
+      <div style={{ fontSize: "12px", color: "#5A5A5A", lineHeight: 1.5, marginTop: "10px" }}>{info.desc}</div>
     </div>
   );
 };
