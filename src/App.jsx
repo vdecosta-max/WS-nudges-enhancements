@@ -154,15 +154,15 @@ const ImgPlaceholder = ({ info }) => {
   return (
     <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", fontFamily: "sans-serif" }}>
       <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "10px" }}>Screenshot Evidence</div>
-      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: "10px" }}>
         {files.map((file, i) => (
           <img
             key={i}
             src={`${basePath}${file}`}
             alt={info.desc}
             style={{
-              flex: files.length > 1 ? "1 1 45%" : "1 1 100%",
-              maxWidth: "100%",
+              maxWidth: files.length > 1 ? "15%" : "30%",
+              height: "auto",
               borderRadius: "6px",
               border: "1px solid #E5E0D8",
             }}
@@ -197,8 +197,8 @@ export default function WSNudgeAnalysis() {
 
         {/* Systemic Findings */}
         <div style={{ marginBottom: "44px" }}>
-          <button onClick={() => setShowSystemic(!showSystemic)} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "13px", fontWeight: 600, color: "#1A1A1A", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", padding: 0, marginBottom: "16px" }}>
-            <span style={{ fontSize: "11px", transition: "transform 0.3s", transform: showSystemic ? "rotate(180deg)" : "rotate(0)", display: "inline-block" }}>{"▾"}</span>
+          <button onClick={() => setShowSystemic(!showSystemic)} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "17px", fontWeight: 600, color: "#1A1A1A", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", padding: 0, marginBottom: "16px" }}>
+            <span style={{ fontSize: "14px", transition: "transform 0.3s", transform: showSystemic ? "rotate(180deg)" : "rotate(0)", display: "inline-block" }}>{"▾"}</span>
             Foundational Capabilities — Prerequisites for Nudge Patterns
           </button>
           {showSystemic && <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
