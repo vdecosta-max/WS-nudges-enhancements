@@ -142,6 +142,8 @@ const stages = [
 ];
 
 const ImgPlaceholder = ({ info }) => {
+  const [modalSrc, setModalSrc] = useState(null);
+
   if (!info) return (
     <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", border: "1px dashed #C9C2B4", fontSize: "12px", color: "#8B8B8B", fontFamily: "sans-serif", textAlign: "center" }}>
       System-triggered nudge — no chat screenshot available
@@ -152,25 +154,54 @@ const ImgPlaceholder = ({ info }) => {
   const basePath = `${import.meta.env.BASE_URL}img/`;
 
   return (
-    <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", fontFamily: "sans-serif" }}>
-      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "10px" }}>Screenshot Evidence</div>
-      <div style={{ display: "flex", gap: "10px" }}>
-        {files.map((file, i) => (
+    <>
+      <div style={{ background: "#F0EDE6", borderRadius: "8px", padding: "14px 16px", fontFamily: "sans-serif" }}>
+        <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: "#8B6914", fontWeight: 600, marginBottom: "10px" }}>Screenshot Evidence</div>
+        <div style={{ display: "flex", gap: "10px" }}>
+          {files.map((file, i) => (
+            <img
+              key={i}
+              src={`${basePath}${file}`}
+              alt={info.desc}
+              onClick={() => setModalSrc(`${basePath}${file}`)}
+              style={{
+                maxWidth: files.length > 1 ? "25%" : "50%",
+                height: "auto",
+                objectFit: "contain",
+                borderRadius: "6px",
+                border: "1px solid #E5E0D8",
+                cursor: "pointer",
+              }}
+            />
+          ))}
+        </div>
+        <div style={{ fontSize: "12px", color: "#5A5A5A", lineHeight: 1.5, marginTop: "10px" }}>{info.desc}</div>
+      </div>
+
+      {modalSrc && (
+        <div
+          onClick={() => setModalSrc(null)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 9999,
+            background: "rgba(0, 0, 0, 0.6)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
           <img
-            key={i}
-            src={`${basePath}${file}`}
+            src={modalSrc}
             alt={info.desc}
             style={{
-              maxWidth: files.length > 1 ? "15%" : "30%",
-              height: "auto",
-              borderRadius: "6px",
-              border: "1px solid #E5E0D8",
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              objectFit: "contain",
+              borderRadius: "10px",
+              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
             }}
           />
-        ))}
-      </div>
-      <div style={{ fontSize: "12px", color: "#5A5A5A", lineHeight: 1.5, marginTop: "10px" }}>{info.desc}</div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
