@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const systemicFindings = [
   { id: "two-pass", title: "Two-Pass Response Override", icon: "🔄",
-    description: "Olive generates a detailed, substantive first response that is then overwritten by a shorter, qualification-focused second response. The first pass consistently delivers stronger, more specific answers.",
+    description: "Olive often generates a detailed, substantive first response that is then overwritten by a shorter, qualification-focused second response. The first pass consistently delivers stronger, more specific answers.",
     evidence: "Observed in 6 of 13 tested interactions: Dutch oven, material comparison, Mauviel pricing, monogramming, Le Creuset collection, and WS Reserve.",
     recommendation: "Evaluate the moderation layer between generation and render. Consider A/B testing first-pass vs. second-pass responses with real users to validate impact on conversion and satisfaction.",
     enablesNudges: "Product recommendations, collection completion, loyalty awareness" },
