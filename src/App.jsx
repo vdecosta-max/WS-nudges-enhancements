@@ -162,7 +162,7 @@ const ImgPlaceholder = ({ info, onImageClick }) => {
             alt={info.desc}
             onClick={(e) => { e.stopPropagation(); onImageClick(`${basePath}${file}`); }}
             style={{
-              maxWidth: files.length > 1 ? "25%" : "50%",
+              maxWidth: files.length > 1 ? "25%" : "30%",
               height: "auto",
               objectFit: "contain",
               borderRadius: "6px",
